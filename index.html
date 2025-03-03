@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Rock Paper Scissors Game</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <audio autoplay><source src="/Game_audio.mpeg"></audio>
+    <div class="front_page">
+      <h1>Rock, Paper, Scissors</h1>
+      <img src="/images/Rock_Paper_scissor.jpeg" alt="front-page" />
+      <button id="btn">Click here to Start</button>
+    </div>
+    <!-- <h1>Rock, Paper, Scissors</h1> -->
+    <div class="container">
+    <h1>Rock, Paper, Scissors</h1>
+      <div class="choices">
+        <div class="choice" id="rock">
+          <img src="./images/Rock.png" />
+        </div>
+        <div class="choice" id="paper">
+          <img src="./images/Paper.png" />
+        </div>
+        <div class="choice" id="scissors">
+          <img src="./images/Scissor.jpg" />
+        </div>
+      </div>
+
+      <div class="score-board">
+        <div class="user_score_container">
+          <p id="user-score">0</p>
+          <p>You</p>
+        </div>
+        <div class="comp_score_container">
+          <p id="comp-score">0</p>
+          <p>Comp</p>
+        </div>
+      </div>
+<div class="button-container">
+      <div class="msg-container">
+        <p id="msg">Play Your Move</p>
+      </div>
+
+      <div class="reset-container">
+        <button id="reset-btn">Play Again</button>
+      </div>
+    </div>
+
+      <div class="history">
+        <h2>Game History</h2>
+        <table id="history-table">
+          <thead>
+            <tr>
+              <th>Game #</th>
+              <th>User Choice</th>
+              <th>Computer Choice</th>
+              <th>Winner</th>
+              <th>User Score</th>
+              <th>Computer Score</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- History will be displayed here -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <script src="app.js"></script>
+  </body>
+</html>
