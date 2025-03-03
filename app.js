@@ -6,9 +6,23 @@ document.addEventListener("DOMContentLoaded", () => {
   const historyTableBody = document.querySelector("#history-table tbody");
   const resetBtn = document.querySelector("#reset-btn");
   const historyContainer = document.querySelector(".history");
+  const container = document.querySelector(".container");
+  const customAlert = document.getElementById("custom-alert");
+  const alertCloseBtn = document.getElementById("alert-close-btn");
+  let gameStarted = false; // Flag to check if game has started
 
-  let userScore = localStorage.getItem("userScore") ? parseInt(localStorage.getItem("userScore")) : 0;
-  let compScore = localStorage.getItem("compScore") ? parseInt(localStorage.getItem("compScore")) : 0;
+  // document.onload(() => {
+    let audio = new Audio("./Game_audio.mpeg");
+    setInterval(() => {
+      audio.play();
+    }, 1000);
+  // });
+  let userScore = localStorage.getItem("userScore")
+    ? parseInt(localStorage.getItem("userScore"))
+    : 0;
+  let compScore = localStorage.getItem("compScore")
+    ? parseInt(localStorage.getItem("compScore"))
+    : 0;
   let gameHistory = JSON.parse(localStorage.getItem("gameHistory")) || [];
 
   // Initialize displayed scores
@@ -31,7 +45,7 @@ document.addEventListener("DOMContentLoaded", () => {
     } else if (userChoice !== compChoice) {
       compScore++;
       winner = "Computer";
-      msg.innerText =`You Lose! ${compChoice} beats your ${userChoice}`;
+      msg.innerText = `You Lose! ${compChoice} beats your ${userChoice}`;
       msg.style.backgroundColor = "red";
     } else {
       // It's a draw
@@ -46,33 +60,32 @@ document.addEventListener("DOMContentLoaded", () => {
       compChoice,
       winner,
       userScore,
-      compScore
+      compScore,
     });
 
     // Update game history in localStorage
     localStorage.setItem("gameHistory", JSON.stringify(gameHistory));
-    updateHistoryTable();  // Update table after storing the game history
+    updateHistoryTable(); // Update table after storing the game history
   };
 
   const playGame = (userChoice) => {
     const compChoice = genCompChoice();
 
-    choices.forEach(choice => {
-      choice.style.backgroundColor = ""; 
-      choice.classList.remove("zoom");  // Remove zoom animation if it was applied earlier
+    choices.forEach((choice) => {
+      choice.style.backgroundColor = "";
+      choice.classList.remove("zoom"); // Remove zoom animation if it was applied earlier
     });
 
     const userChoiceElement = document.getElementById(userChoice);
     const compChoiceElement = document.getElementById(compChoice);
 
     // Set the background color for user and computer choices
-    if(userChoice===compChoice){
-      userChoiceElement.style.backgroundColor = "gray";  // User background color
-    compChoiceElement.style.backgroundColor = "gray";   // Computer background color
-    }
-    else{
-    userChoiceElement.style.backgroundColor = "rgb(133, 82, 55)";  // User background color
-    compChoiceElement.style.backgroundColor = "rgb(92, 24, 23)";   // Computer background color
+    if (userChoice === compChoice) {
+      userChoiceElement.style.backgroundColor = "gray"; // User background color
+      compChoiceElement.style.backgroundColor = "gray"; // Computer background color
+    } else {
+      userChoiceElement.style.backgroundColor = "rgb(133, 82, 55)"; // User background color
+      compChoiceElement.style.backgroundColor = "rgb(92, 24, 23)"; // Computer background color
     }
 
     // Apply the zoom animation to both user and computer choices
@@ -82,21 +95,14 @@ document.addEventListener("DOMContentLoaded", () => {
     setTimeout(() => {
       userChoiceElement.classList.remove("zoom");
       compChoiceElement.classList.remove("zoom");
-      userChoiceElement.style.backgroundColor ='';
-      compChoiceElement.style.backgroundColor ='';
-
-    }, 1000);  // The zoom lasts for 1 second
+      userChoiceElement.style.backgroundColor = "";
+      compChoiceElement.style.backgroundColor = "";
+    }, 1000); // The zoom lasts for 1 second
 
     // Handle the outcome after the zoom animation finishes
     setTimeout(() => {
       if (userChoice === compChoice) {
-        // userChoiceElement.style.backgroundColor = "gray";
-        // compChoiceElement.style.backgroundColor = "gray"; 
-        // setTimeout(() => {
-        //   userChoiceElement.style.backgroundColor = '';
-        //   compChoiceElement.style.backgroundColor = '';
-        // }, 1000);
-        showWinner(false, userChoice, compChoice); 
+        showWinner(false, userChoice, compChoice);
       } else {
         let userWin = true;
         if (userChoice === "rock") {
@@ -112,7 +118,7 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
   const updateHistoryTable = () => {
-    historyTableBody.innerHTML = ''; 
+    historyTableBody.innerHTML = "";
 
     gameHistory.forEach((game, index) => {
       const row = document.createElement("tr");
@@ -140,8 +146,8 @@ document.addEventListener("DOMContentLoaded", () => {
     choice.addEventListener("click", () => {
       const userChoice = choice.getAttribute("id");
       playGame(userChoice);
-       // Show the history section when any choice is selected
-       historyContainer.style.display = "block";
+      // Show the history section when any choice is selected
+      historyContainer.style.display = "block";
     });
   });
 
@@ -158,7 +164,7 @@ document.addEventListener("DOMContentLoaded", () => {
     userScorePara.innerText = userScore;
     compScorePara.innerText = compScore;
     msg.innerText = "Play Your Move";
-    msg.style.backgroundColor = "#431d0c";  
+    msg.style.backgroundColor = "#997556";
 
     // Clear localStorage
     localStorage.setItem("userScore", userScore);
@@ -167,18 +173,36 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Clear the history table
     updateHistoryTable();
+
+    historyContainer.style.display = "none"; // Hide the history container
   });
-});
 
+  // Get the button and the divs
+  const btn = document.getElementById("btn");
+  const frontPage = document.querySelector(".welcome-screen");
 
-// Get the button and the divs
-const btn = document.getElementById("btn");
-const frontPage = document.querySelector(".front_page");
-const container = document.querySelector(".container");
-
-// Add event listener to the button
-btn.addEventListener("click", function() {
+  // Add event listener to the button
+  btn.addEventListener("click", function () {
     // Hide the front page and show the container
     frontPage.style.display = "none";
     container.style.display = "block";
+    gameStarted = true; // Mark the game as started
+  });
+
+  container.addEventListener("click", (e) => {
+    // Show the pop-up only when the click is not on a choice element
+    if (
+      gameStarted &&
+      !e.target.classList.contains("choice") &&
+      !e.target.closest(".choice") &&
+      e.target.id !== "reset-btn"
+    ) {
+      customAlert.style.display = "flex";
+    }
+  });
+
+  // Close the alert when the "OK" button is clicked
+  alertCloseBtn.addEventListener("click", () => {
+    customAlert.style.display = "none";
+  });
 });

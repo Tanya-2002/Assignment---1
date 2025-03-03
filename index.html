@@ -7,15 +7,18 @@
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <audio autoplay><source src="/Game_audio.mpeg"></audio>
-    <div class="front_page">
+<!-- 
+    <audio autoplay><source src="/Game_audio.mpeg" /></audio> -->
+
+    <div class="welcome-screen">
       <h1>Rock, Paper, Scissors</h1>
-      <img src="/images/Rock_Paper_scissor.jpeg" alt="front-page" />
+      <img src="/images/Rock_Paper_scissor.jpeg" alt="Game Intro Image" />
       <button id="btn">Click here to Start</button>
     </div>
+
     <!-- <h1>Rock, Paper, Scissors</h1> -->
     <div class="container">
-    <h1>Rock, Paper, Scissors</h1>
+      <h1>Rock, Paper, Scissors</h1>
       <div class="choices">
         <div class="choice" id="rock">
           <img src="./images/Rock.png" />
@@ -31,22 +34,22 @@
       <div class="score-board">
         <div class="user_score_container">
           <p id="user-score">0</p>
-          <p>You</p>
+          <p>Your Score</p>
         </div>
         <div class="comp_score_container">
           <p id="comp-score">0</p>
-          <p>Comp</p>
+          <p>Computer Score</p>
         </div>
       </div>
-<div class="button-container">
-      <div class="msg-container">
-        <p id="msg">Play Your Move</p>
-      </div>
+      <div class="button-container">
+        <div class="msg-container">
+          <p id="msg">Play Your Move</p>
+        </div>
 
-      <div class="reset-container">
-        <button id="reset-btn">Play Again</button>
+        <div class="reset-container">
+          <button id="reset-btn">Reset</button>
+        </div>
       </div>
-    </div>
 
       <div class="history">
         <h2>Game History</h2>
@@ -67,6 +70,14 @@
         </table>
       </div>
     </div>
+
+    <div id="custom-alert" class="custom-alert">
+      <div class="alert-content">
+        <p id="alert-message">Please click on any one of the choices (Rock, Paper, or Scissors)</p>
+        <button id="alert-close-btn">OK</button>
+      </div>
+    </div>
+    
     <script src="app.js"></script>
   </body>
 </html>
